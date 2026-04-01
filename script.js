@@ -34,11 +34,11 @@ function spawnHeart() {
     if (heartsSpawned >= TOTAL_RED_HEARTS) {
         isPink = true;
         heart.textContent = "💖"; // pink heart emoji
-        heart.speed = 6; // 2x speed
+        heart.speed = 12; // 2x speed
         heart.points = 5;
     } else {
         heart.textContent = "❤️"; // red heart emoji
-        heart.speed = 3;
+        heart.speed = 6;
         heart.points = 1;
     }
 
