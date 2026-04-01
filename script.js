@@ -37,12 +37,12 @@ function spawnHeart() {
     
     if (isPink) {
         heart.textContent = "💖";
-        heart.speed = 12; // 2x speed
+        heart.speed = 13; // 2x speed
         heart.points = 5;
         heart.classList.add("pink-heart");
     } else {
         heart.textContent = "❤️";
-        heart.speed = 6;
+        heart.speed = 9;
         heart.points = 1;
     }
 
@@ -63,7 +63,6 @@ function spawnHeart() {
         if (position > playZone.offsetHeight - 20) {
             heart.remove();
             clearInterval(fall);
-            playMissSound();
 
             activeHearts--;  // heart is done falling
             if (heartsSpawned >= TOTAL_RED_HEARTS + TOTAL_PINK_HEARTS && activeHearts === 0) {
@@ -98,7 +97,7 @@ function updateNarrator(score) {
         narrator.textContent = "Click all the hearts";
     } else if (score < 30) {
         narrator.textContent = "Keep going";
-    } else if (score < 60) {
+    } else if (score < 50) {
         narrator.textContent = "I said ADVANCE GOD DAMMIT";
     } else if (score < 90) {
         narrator.textContent = "Past half way";
@@ -114,7 +113,7 @@ function playMissSound() {
     setTimeout(() => {
         missAudio.pause();     
         missAudio.currentTime = 0; 
-    }, 800); 
+    }, 2000); 
 }
 
 function checkWin() {
@@ -131,12 +130,29 @@ function checkWin() {
 
 function checkLose() {
     if (score < WIN_SCORE) {
-        narrator.textContent = "Oh no… you didn’t get enough points 😢";
+        narrator.textContent = "WOMP WOMP, do it again";
+        playMissSound();
         playZone.innerHTML = "";
 
         const message = document.createElement("h2");
         message.textContent = "Better luck next time!";
         playZone.appendChild(message);
+
+        const playAgainBtn = document.createElement("button");
+        playAgainBtn.textContent = "Redemption";
+        playAgainBtn.addEventListener("click", () => {
+            // Reset variables
+            heartsSpawned = 0;
+            score = 0;
+            activeHearts = 0;
+            scoreDisplay.textContent = "Score: 0";
+            playZone.innerHTML = "";
+            narrator.textContent = "Click all the hearts";
+
+            // Restart the game
+            gameInterval = setInterval(spawnHeart, 800);
+        });
+        playZone.appendChild(playAgainBtn);
     }
 }
 
@@ -151,8 +167,24 @@ function showFinalQuestion() {
     const yesBtn = document.createElement("button");
     yesBtn.textContent = "Yes!";
     yesBtn.addEventListener("click", () => {
-        question.textContent = "Yay! You’re stuck with me now 😌🎉";
-        // Confetti / slide show can go here next
+            question.textContent = "YIPPIIEEEEEE😌🎉";
+            yesBtn.style.display = "none";
+        noBtn.style.display = "none";
+
+        // Slideshow images
+        const images = ["photo1.jpeg", "photo2.jpeg", "photo3.jpeg"]; // put your image file names here
+        let index = 0;
+
+        const imgElement = document.createElement("img");
+        imgElement.src = images[index];
+        imgElement.style.width = "80%";
+        imgElement.style.marginTop = "20px";
+        playZone.appendChild(imgElement);
+
+        setInterval(() => {
+            index = (index + 1) % images.length;
+            imgElement.src = images[index];
+        }, 2000); // change image every 2 seconds
     });
     playZone.appendChild(yesBtn);
 
