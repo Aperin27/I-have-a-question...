@@ -14,6 +14,8 @@ let score = 0;
 let activeHearts = 0; 
 let gameInterval;
 
+
+
 startBtn.addEventListener("click", () => {
     startBtn.style.display = "none";
     gameArea.classList.remove("hidden");
@@ -141,7 +143,8 @@ function checkLose() {
         const playAgainBtn = document.createElement("button");
         playAgainBtn.textContent = "Redemption";
         playAgainBtn.addEventListener("click", () => {
-            // Reset variables
+            clearInterval(gameInterval);
+
             heartsSpawned = 0;
             score = 0;
             activeHearts = 0;
@@ -149,8 +152,7 @@ function checkLose() {
             playZone.innerHTML = "";
             narrator.textContent = "Click all the hearts";
 
-            // Restart the game
-            gameInterval = setInterval(spawnHeart, 800);
+            startGame();
         });
         playZone.appendChild(playAgainBtn);
     }
@@ -166,6 +168,7 @@ function showFinalQuestion() {
 
     const yesBtn = document.createElement("button");
     yesBtn.textContent = "Yes!";
+    yesBtn.classList.add("final-btn");
     yesBtn.addEventListener("click", () => {
             question.textContent = "YIPPIIEEEEEE😌🎉";
             yesBtn.style.display = "none";
@@ -189,23 +192,32 @@ function showFinalQuestion() {
             "photo14.jpeg",
             "photo15.jpeg"
         ];
+        playZone.classList.add("slideshow-mode");
+
         let index = 0;
 
+        const bgElement = document.createElement("img");
+        bgElement.classList.add("slideshow-bg");
+        bgElement.src = images[index];
+
         const imgElement = document.createElement("img");
+        imgElement.classList.add("slideshow-image");
         imgElement.src = images[index];
-        imgElement.style.width = "80%";
-        imgElement.style.marginTop = "20px";
+
+        playZone.appendChild(bgElement);
         playZone.appendChild(imgElement);
 
         setInterval(() => {
             index = (index + 1) % images.length;
+            bgElement.src = images[index];
             imgElement.src = images[index];
-        }, 2000); // change image every 2 seconds
+        }, 2000);
     });
     playZone.appendChild(yesBtn);
 
     const noBtn = document.createElement("button");
     noBtn.textContent = "No…";
+    noBtn.classList.add("final-btn");
     noBtn.addEventListener("click", () => {
         noBtn.style.display = "none";
         question.textContent = "Hmm… that option is currently unavailable 😏";
