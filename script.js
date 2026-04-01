@@ -7,9 +7,12 @@ const TOTAL_RED_HEARTS = 75;
 const TOTAL_PINK_HEARTS = 5;
 const MAX_SCORE = 100;
 const WIN_SCORE = 95;
+const missAudio = document.getElementById("miss-sound");
 
 let heartsSpawned = 0; 
 let score = 0;
+let activeHearts = 0; 
+let gameInterval;
 
 startBtn.addEventListener("click", () => {
     startBtn.style.display = "none";
@@ -29,13 +32,14 @@ function spawnHeart() {
 
     const heart = document.createElement("div");
 
-    const pinkPositions = [20, 40, 60, 80, 100]; 
+    const pinkPositions = [16, 32, 48, 64, 80]; 
     let isPink = pinkPositions.includes(heartsSpawned + 1); 
     
     if (isPink) {
         heart.textContent = "💖";
         heart.speed = 12; // 2x speed
         heart.points = 5;
+        heart.classList.add("pink-heart");
     } else {
         heart.textContent = "❤️";
         heart.speed = 6;
@@ -48,6 +52,7 @@ function spawnHeart() {
 
     playZone.appendChild(heart);
     heartsSpawned++;
+    activeHearts++; 
 
     let position = 0;
 
@@ -58,6 +63,13 @@ function spawnHeart() {
         if (position > playZone.offsetHeight - 20) {
             heart.remove();
             clearInterval(fall);
+            playMissSound();
+
+            activeHearts--;  // heart is done falling
+            if (heartsSpawned >= TOTAL_RED_HEARTS + TOTAL_PINK_HEARTS && activeHearts === 0) {
+                checkLose();
+            }
+
         }
     }, 30);
 
@@ -71,19 +83,15 @@ function handleHeartClick(heart, fallInterval) {
     heart.remove();
     clearInterval(fallInterval);
 
-    updateNarrator(score);
-    checkWin();
-}
-
-function handleHeartClick(heart, fallInterval) {
-    score += heart.points;
-    scoreDisplay.textContent = "Score: " + score;
-    heart.remove();
-    clearInterval(fallInterval);
+    activeHearts--;  
+    if (heartsSpawned >= TOTAL_RED_HEARTS + TOTAL_PINK_HEARTS && activeHearts === 0) {
+        checkLose();
+    }
 
     updateNarrator(score);
     checkWin();
 }
+
 
 function updateNarrator(score) {
     if (score < 10) {
@@ -99,6 +107,16 @@ function updateNarrator(score) {
     }
 }
 
+function playMissSound() {
+    missAudio.currentTime = 0; 
+    missAudio.play();
+
+    setTimeout(() => {
+        missAudio.pause();     
+        missAudio.currentTime = 0; 
+    }, 800); 
+}
+
 function checkWin() {
     if (score >= WIN_SCORE && heartsSpawned >= TOTAL_RED_HEARTS + TOTAL_PINK_HEARTS) {
         narrator.textContent = "FUCK YEAH! 🎉";
@@ -108,6 +126,17 @@ function checkWin() {
 
         // Show final reveal after a pause
         setTimeout(showFinalQuestion, 1000);
+    }
+}
+
+function checkLose() {
+    if (score < WIN_SCORE) {
+        narrator.textContent = "Oh no… you didn’t get enough points 😢";
+        playZone.innerHTML = "";
+
+        const message = document.createElement("h2");
+        message.textContent = "Better luck next time!";
+        playZone.appendChild(message);
     }
 }
 
