@@ -172,7 +172,23 @@ function showFinalQuestion() {
         noBtn.style.display = "none";
 
         // Slideshow images
-        const images = ["photo1.jpeg", "photo2.jpeg", "photo3.jpeg"]; // put your image file names here
+        const images = [
+            "photo1.jpeg",
+            "photo2.jpeg",
+            "photo3.jpeg",
+            "photo4.jpeg",
+            "photo5.jpeg",
+            "photo6.jpeg",
+            "photo7.jpeg",
+            "photo8.jpeg",
+            "photo9.jpeg",
+            "photo10.jpeg",
+            "photo11.jpeg",
+            "photo12.jpeg",
+            "photo13.jpeg",
+            "photo14.jpeg",
+            "photo15.jpeg"
+        ];
         let index = 0;
 
         const imgElement = document.createElement("img");
