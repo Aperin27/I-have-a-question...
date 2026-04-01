@@ -29,15 +29,15 @@ function spawnHeart() {
 
     const heart = document.createElement("div");
 
-    // Decide red or pink
-    let isPink = false;
-    if (heartsSpawned >= TOTAL_RED_HEARTS) {
-        isPink = true;
-        heart.textContent = "💖"; // pink heart emoji
+    const pinkPositions = [20, 40, 60, 80, 100]; 
+    let isPink = pinkPositions.includes(heartsSpawned + 1); 
+    
+    if (isPink) {
+        heart.textContent = "💖";
         heart.speed = 12; // 2x speed
         heart.points = 5;
     } else {
-        heart.textContent = "❤️"; // red heart emoji
+        heart.textContent = "❤️";
         heart.speed = 6;
         heart.points = 1;
     }
@@ -87,21 +87,21 @@ function handleHeartClick(heart, fallInterval) {
 
 function updateNarrator(score) {
     if (score < 10) {
-        narrator.textContent = "Focus… this is important.";
+        narrator.textContent = "Click all the hearts";
     } else if (score < 30) {
-        narrator.textContent = "Not bad… keep going!";
+        narrator.textContent = "Keep going";
     } else if (score < 60) {
-        narrator.textContent = "Wow, you’re really good at this!";
+        narrator.textContent = "I said ADVANCE GOD DAMMIT";
     } else if (score < 90) {
-        narrator.textContent = "Almost there… I believe in you 😏";
+        narrator.textContent = "Past half way";
     } else {
-        narrator.textContent = "You’re crushing it… just a bit more!";
+        narrator.textContent = "Almost there...";
     }
 }
 
 function checkWin() {
     if (score >= WIN_SCORE && heartsSpawned >= TOTAL_RED_HEARTS + TOTAL_PINK_HEARTS) {
-        narrator.textContent = "You did it! 🎉";
+        narrator.textContent = "FUCK YEAH! 🎉";
 
         // Stop spawning hearts (optional)
         clearInterval(gameInterval);

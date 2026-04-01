@@ -28,13 +28,13 @@ button {
 #play-zone {
     position: relative;
     width: 100vw; 
-    max-width: 500px; 
+    max-width: 600px; 
     height: 80vh; 
-    max-height: 400px;
+    max-height: 500px;
     background-color: #fff;
     overflow: hidden;
     border: 2px solid #ff99cc;  
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 .heart {
