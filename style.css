@@ -7,7 +7,8 @@ body {
 }
 
 #game-container {
-    margin-top: 100px;
+    margin-top: 20px;
+    width: 100%;
 }
 
 button {
@@ -26,13 +27,13 @@ button {
 
 #play-zone {
     position: relative;
-    width: 90vw; /* 90% of viewport width */
-    max-width: 500px; /* optional: keeps it not huge on desktop */
-    height: 60vh; /* 60% of viewport height */
+    width: 100vw; 
+    max-width: 500px; 
+    height: 80vh; 
     max-height: 400px;
     background-color: #fff;
     overflow: hidden;
-    border: 2px solid #ff99cc;
+    border: 2px solid #ff99cc;  
     margin: 20px auto;
 }
 
